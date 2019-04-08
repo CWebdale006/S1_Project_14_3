@@ -63,22 +63,22 @@ function makeTree() {
       asideFrag.appendChild(nodeList);
 
       // Matches the CSS selector "#main article" 
-      var sourceArticle = document.querySelectorAll("#main article");
+      var sourceArticle = document.querySelector("#main article");
 
       // Calls the makeBranches() function using sourceArticle and nodeList as parameters 
       makeBranches(sourceArticle, nodeList);
 
       // Displays the total count of nodes 
-      document.getElementById("totalNodes").innerText = nodeCount;
+      document.getElementById("totalNodes").textContent = nodeCount;
 
       // Displays the total count of element nodes 
-      document.getElementById("elemNodes").innerText = elementCount;
+      document.getElementById("elemNodes").textContent = elementCount;
 
       // Displays the total count of text nodes
-      document.getElementById("textNodes").innerText = textCount;
+      document.getElementById("textNodes").textContent = textCount;
 
       // Displays the total count of whitespace nodes 
-      document.getElementById("wsNodes").innerText = wsCount;
+      document.getElementById("wsNodes").textContent = wsCount;
 }
 
 // Used to append node branches to the node tree diagram 
@@ -102,67 +102,60 @@ function makeBranches(treeNode, nestedList) {
       // Appends the liElem node to the nestedList element node 
       nestedList.appendChild(liElem);
 
-      for (var i = 0; i < treeNode[0].childNodes.length; i++) {
-            // If treeNode represents an element node 
-            if (treeNode[0].childNodes[i].nodeType === 1) {
-                  console.log("is being run as an element node");
-                  // Increases the value of the elementCount variable by 1 
-                  elementCount++
+      // If treeNode represents an element node 
+      if (treeNode.nodeType === 1) {
+            console.log("is being run as an element node");
+            // Increases the value of the elementCount variable by 1 
+            elementCount++;
 
-                  // Adds the class attribute to the spanElem node 
-                  spanElem.setAttribute("class", "elementNode");
+            // Adds the class attribute to the spanElem node 
+            spanElem.setAttribute("class", "elementNode");
 
-                  // Appends a text string to the spanElem node 
-                  spanElem.textContent = "<" + treeNode[0].childNodes[i].tagName + ">";
+            // Appends a text string to the spanElem node 
+            spanElem.textContent = "<" + treeNode.nodeName + ">";
+      } else if (treeNode.nodeType === 3) { // If treeNode represents a text node 
+            console.log("is being run as a text node");
+            // Increases the value of the textCount variable by 1 
+            textCount++;
 
-            } else { // If treeNode represents a text node 
-                  console.log("is being run as a text node");
-                  // Increases the value of the textCount variable by 1 
-                  textCount++
+            // Declares the variable "textString" equal to the value of the text node 
+            var textString = treeNode.nodeValue;
 
-                  // Declares the variable "textString" equal to the value of the text node 
-                  var textString = treeNode[0].childNodes[i];
+            // If the function returns the value true, 
+            if (isWhiteSpaceNode(textString)) {
+                  // Increases the value of the wsCount variable by 1
+                  wsCount++;
 
-                  console.log(textString)
-                  // If the function returns the value true, 
-                  if (isWhiteSpaceNode(textString) === true) {
-                        // Increases the value of the wsCount variable by 1
-                        wsCount++
+                  // Changes the class attribute 
+                  spanElem.setAttribute("class", "whiteSpaceNode");
 
-                        // Changes the class attribute 
-                        spanElem.setAttribute("class", "whiteSpaceNode");
+                  // Appends the text string "#text" to the spanElem node 
+                  spanElem.textContent = textString;
+            } else {
+                  // Changes the class attribute 
+                  spanElem.setAttribute("class", "textNode");
 
-                        // Appends the text string "#text" to the spanElem node 
-                        spanElem.textContent += "#text";
-                  }
+                  // Appends the value of the textString variable 
+                  spanElem.textContent = textString;
+            }
 
-                  // If the function returns the value false, 
-                  if (isWhiteSpaceNode(textString) === false) {
-                        // Changes the class attribute 
-                        spanElem.setAttribute("class", "textNode");
+            // If the number of child nodes of treeNode is greater than zero 
+            if (treeNode.childNodes.length > 0) {
+                  // Creates a HTML fragment as an element node 
+                  var newList = document.createElement("ol");
+                  newList.innerHTML = "|";
 
-                        // Appends the value of the textString variable 
-                        spanElem.innerText += textString.value;
-                  }
+                  // Appends newList to the nestedList element node 
+                  nestedList.appendChild(newList);
 
-                  // If the number of child nodes of treeNode is greater than zero, 
-                  // if (treeNode.childNodes.length > 0) {
-                  if (treeNode[0].childNodes > 0) {
-                        // Creates a HTML fragment as an element node 
-                        var newList = document.createElement("ol");
-                        newList.innerText = "|";
-
-                        // Appends newList to the nestedList element node 
-                        nestedList.appendChild(newList);
-
-                        // Loops through the child nodes of treeNode using n 
-                        for (var n = 0; n < treeNode.childNodes.length; n++) {
-                              // For each child node, calls the makeBranches() function using n and newList as parameter values 
-                              makeBranches(n, newList);
-                        }
+                  // Loops through the child nodes of treeNode using n 
+                  for (var n = treeNode.firstChid; n != null; n = n.nextSibling) {
+                        // For each child node, calls the makeBranches() function using n and newList as parameter values 
+                        makeBranches(n, newList);
                   }
             }
       }
+
 }
 
 
