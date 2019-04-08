@@ -138,23 +138,23 @@ function makeBranches(treeNode, nestedList) {
                   // Appends the value of the textString variable 
                   spanElem.textContent = textString;
             }
+      }
+      // If the number of child nodes of treeNode is greater than zero 
+      if (treeNode.childNodes.length > 0) {
+            // Creates a HTML fragment as an element node 
+            var newList = document.createElement("ol");
+            newList.innerHTML = "|";
 
-            // If the number of child nodes of treeNode is greater than zero 
-            if (treeNode.childNodes.length > 0) {
-                  // Creates a HTML fragment as an element node 
-                  var newList = document.createElement("ol");
-                  newList.innerHTML = "|";
+            // Appends newList to the nestedList element node 
+            nestedList.appendChild(newList);
 
-                  // Appends newList to the nestedList element node 
-                  nestedList.appendChild(newList);
-
-                  // Loops through the child nodes of treeNode using n 
-                  for (var n = treeNode.firstChid; n != null; n = n.nextSibling) {
-                        // For each child node, calls the makeBranches() function using n and newList as parameter values 
-                        makeBranches(n, newList);
-                  }
+            // Loops through the child nodes of treeNode using n 
+            for (var n = treeNode.firstChid; n != null; n = n.nextSibling) {
+                  // For each child node, calls the makeBranches() function using n and newList as parameter values 
+                  makeBranches(n, newList);
             }
       }
+
 
 }
 
