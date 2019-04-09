@@ -46,7 +46,7 @@ var wsCount = 0;
 // Event handler to run the makeTree() function when the page loads 
 window.addEventListener("load", makeTree);
 
-// Creates the node tree for the srouce article on the page 
+// Creates the node tree for the source article on the page 
 function makeTree() {
       // Creates an aside element fragment 
       var asideFrag = document.createElement("aside");
@@ -123,6 +123,7 @@ function makeBranches(treeNode, nestedList) {
             if (isWhiteSpaceNode(textString)) {
                   // Increases the value of the wsCount variable by 1
                   wsCount++;
+
                   // Changes the class attribute 
                   spanElem.setAttribute("class", "whiteSpaceNode");
 
@@ -152,8 +153,6 @@ function makeBranches(treeNode, nestedList) {
                   makeBranches(n, newList);
             }
       }
-
-
 }
 
 
