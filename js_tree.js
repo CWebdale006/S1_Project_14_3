@@ -104,7 +104,6 @@ function makeBranches(treeNode, nestedList) {
 
       // If treeNode represents an element node 
       if (treeNode.nodeType === 1) {
-            console.log("is being run as an element node");
             // Increases the value of the elementCount variable by 1 
             elementCount++;
 
@@ -114,7 +113,6 @@ function makeBranches(treeNode, nestedList) {
             // Appends a text string to the spanElem node 
             spanElem.textContent = "<" + treeNode.nodeName + ">";
       } else if (treeNode.nodeType === 3) { // If treeNode represents a text node 
-            console.log("is being run as a text node");
             // Increases the value of the textCount variable by 1 
             textCount++;
 
@@ -125,7 +123,6 @@ function makeBranches(treeNode, nestedList) {
             if (isWhiteSpaceNode(textString)) {
                   // Increases the value of the wsCount variable by 1
                   wsCount++;
-
                   // Changes the class attribute 
                   spanElem.setAttribute("class", "whiteSpaceNode");
 
@@ -139,6 +136,7 @@ function makeBranches(treeNode, nestedList) {
                   spanElem.textContent = textString;
             }
       }
+
       // If the number of child nodes of treeNode is greater than zero 
       if (treeNode.childNodes.length > 0) {
             // Creates a HTML fragment as an element node 
@@ -149,7 +147,7 @@ function makeBranches(treeNode, nestedList) {
             nestedList.appendChild(newList);
 
             // Loops through the child nodes of treeNode using n 
-            for (var n = treeNode.firstChid; n != null; n = n.nextSibling) {
+            for (var n = treeNode.firstChild; n != null; n = n.nextSibling) {
                   // For each child node, calls the makeBranches() function using n and newList as parameter values 
                   makeBranches(n, newList);
             }
@@ -157,6 +155,7 @@ function makeBranches(treeNode, nestedList) {
 
 
 }
+
 
 
 
